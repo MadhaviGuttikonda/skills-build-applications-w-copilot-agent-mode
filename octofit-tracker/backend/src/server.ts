@@ -25,24 +25,23 @@ app.get('/api/health', (_req, res) => {
   res.json({ status: 'ok', service: 'octofit-tracker-backend', apiUrl: apiBaseUrl });
 });
 
-app.use('/api/users', usersRouter);
-app.use('/api/teams', teamsRouter);
-app.use('/api/activities', activitiesRouter);
-app.use('/api/leaderboard', leaderboardRouter);
-app.use('/api/workouts', workoutsRouter);
+app.use('/api/users/', usersRouter);
+app.use('/api/teams/', teamsRouter);
+app.use('/api/activities/', activitiesRouter);
+app.use('/api/leaderboard/', leaderboardRouter);
+app.use('/api/workouts/', workoutsRouter);
 
 async function startServer() {
   try {
     await mongoose.connect(mongoUri);
     console.log('Connected to MongoDB');
-
-    app.listen(port, () => {
-      console.log(`Backend listening on port ${port}`);
-    });
   } catch (error) {
-    console.error('Failed to start backend:', error);
-    process.exit(1);
+    console.error('MongoDB unavailable, continuing with fallback data:', error);
   }
+
+  app.listen(port, () => {
+    console.log(`Backend listening on port ${port}`);
+  });
 }
 
 startServer();

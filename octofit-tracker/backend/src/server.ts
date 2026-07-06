@@ -9,7 +9,7 @@ import leaderboardRouter from './routes/leaderboard.js';
 import workoutsRouter from './routes/workouts.js';
 import { getApiBaseUrl } from './utils/apiUrl.js';
 
-dotenv.config();
+dotenv.config(); 
 
 const app = express();
 const port = Number(process.env.PORT || 8000);

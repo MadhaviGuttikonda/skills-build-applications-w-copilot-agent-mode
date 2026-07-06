@@ -1,5 +1,10 @@
 import { useEffect, useState } from 'react';
-import { getApiBaseUrl } from '../utils/api.js';
+import { getApiUrl } from '../utils/api.js';
+
+const fallbackUsers = [
+  { name: 'Ada Lovelace', email: 'ada@example.com', fitnessGoal: 'Marathon training' },
+  { name: 'Grace Hopper', email: 'grace@example.com', fitnessGoal: 'Strength building' },
+];
 
 function Users() {
   const [users, setUsers] = useState([]);
@@ -8,7 +13,7 @@ function Users() {
   useEffect(() => {
     async function loadUsers() {
       try {
-        const res = await fetch(`${getApiBaseUrl()}/api/users/`);
+        const res = await fetch(getApiUrl('users'));
         if (!res.ok) {
           throw new Error('Failed to load users');
         }
@@ -16,6 +21,7 @@ function Users() {
         const items = Array.isArray(data) ? data : data.results ?? [];
         setUsers(items);
       } catch (err) {
+        setUsers(fallbackUsers);
         setError(err.message);
       }
     }

@@ -1,5 +1,10 @@
 import { useEffect, useState } from 'react';
-import { getApiBaseUrl } from '../utils/api.js';
+import { getApiUrl } from '../utils/api.js';
+
+const fallbackTeams = [
+  { name: 'Alpha Squad', sport: 'Cycling' },
+  { name: 'Beta Crew', sport: 'Running' },
+];
 
 function Teams() {
   const [teams, setTeams] = useState([]);
@@ -8,7 +13,7 @@ function Teams() {
   useEffect(() => {
     async function loadTeams() {
       try {
-        const res = await fetch(`${getApiBaseUrl()}/api/teams/`);
+        const res = await fetch(getApiUrl('teams'));
         if (!res.ok) {
           throw new Error('Failed to load teams');
         }
@@ -16,6 +21,7 @@ function Teams() {
         const items = Array.isArray(data) ? data : data.results ?? [];
         setTeams(items);
       } catch (err) {
+        setTeams(fallbackTeams);
         setError(err.message);
       }
     }

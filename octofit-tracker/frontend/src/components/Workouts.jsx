@@ -1,5 +1,10 @@
 import { useEffect, useState } from 'react';
-import { getApiBaseUrl } from '../utils/api.js';
+import { getApiUrl } from '../utils/api.js';
+
+const fallbackWorkouts = [
+  { title: 'Core Blast', difficulty: 'Medium', durationMinutes: 25 },
+  { title: 'Morning Mobility', difficulty: 'Easy', durationMinutes: 20 },
+];
 
 function Workouts() {
   const [workouts, setWorkouts] = useState([]);
@@ -8,7 +13,7 @@ function Workouts() {
   useEffect(() => {
     async function loadWorkouts() {
       try {
-        const res = await fetch(`${getApiBaseUrl()}/api/workouts/`);
+        const res = await fetch(getApiUrl('workouts'));
         if (!res.ok) {
           throw new Error('Failed to load workouts');
         }
@@ -16,6 +21,7 @@ function Workouts() {
         const items = Array.isArray(data) ? data : data.results ?? [];
         setWorkouts(items);
       } catch (err) {
+        setWorkouts(fallbackWorkouts);
         setError(err.message);
       }
     }

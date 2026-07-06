@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { getApiBaseUrl } from '../utils/api.js';
 
 const fallbackTeams = [
   { name: 'Alpha Squad', sport: 'Cycling' },
@@ -13,7 +12,10 @@ function Teams() {
   useEffect(() => {
     async function loadTeams() {
       try {
-        const res = await fetch(`${getApiBaseUrl()}/api/teams/`);
+        const apiBaseUrl = import.meta.env.VITE_CODESPACE_NAME
+          ? `https://${import.meta.env.VITE_CODESPACE_NAME}-8000.app.github.dev`
+          : 'http://localhost:8000';
+        const res = await fetch(`${apiBaseUrl}/api/teams/`);
         if (!res.ok) {
           throw new Error('Failed to load teams');
         }

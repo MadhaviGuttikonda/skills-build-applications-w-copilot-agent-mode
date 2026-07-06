@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { getApiBaseUrl } from '../utils/api.js';
 
 const fallbackEntries = [
   { rank: 1, name: 'Ada Lovelace', score: 1280 },
@@ -13,7 +12,10 @@ function Leaderboard() {
   useEffect(() => {
     async function loadLeaderboard() {
       try {
-        const res = await fetch(`${getApiBaseUrl()}/api/leaderboard/`);
+        const apiBaseUrl = import.meta.env.VITE_CODESPACE_NAME
+          ? `https://${import.meta.env.VITE_CODESPACE_NAME}-8000.app.github.dev`
+          : 'http://localhost:8000';
+        const res = await fetch(`${apiBaseUrl}/api/leaderboard/`);
         if (!res.ok) {
           throw new Error('Failed to load leaderboard');
         }

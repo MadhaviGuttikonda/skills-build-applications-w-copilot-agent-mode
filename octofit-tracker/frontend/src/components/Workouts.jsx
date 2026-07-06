@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { getApiBaseUrl } from '../utils/api.js';
 
 const fallbackWorkouts = [
   { title: 'Core Blast', difficulty: 'Medium', durationMinutes: 25 },
@@ -13,7 +12,10 @@ function Workouts() {
   useEffect(() => {
     async function loadWorkouts() {
       try {
-        const res = await fetch(`${getApiBaseUrl()}/api/workouts/`);
+        const apiBaseUrl = import.meta.env.VITE_CODESPACE_NAME
+          ? `https://${import.meta.env.VITE_CODESPACE_NAME}-8000.app.github.dev`
+          : 'http://localhost:8000';
+        const res = await fetch(`${apiBaseUrl}/api/workouts/`);
         if (!res.ok) {
           throw new Error('Failed to load workouts');
         }

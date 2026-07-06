@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { getApiBaseUrl } from '../utils/api.js';
 
 const fallbackUsers = [
   { name: 'Ada Lovelace', email: 'ada@example.com', fitnessGoal: 'Marathon training' },
@@ -13,7 +12,10 @@ function Users() {
   useEffect(() => {
     async function loadUsers() {
       try {
-        const res = await fetch(`${getApiBaseUrl()}/api/users/`);
+        const apiBaseUrl = import.meta.env.VITE_CODESPACE_NAME
+          ? `https://${import.meta.env.VITE_CODESPACE_NAME}-8000.app.github.dev`
+          : 'http://localhost:8000';
+        const res = await fetch(`${apiBaseUrl}/api/users/`);
         if (!res.ok) {
           throw new Error('Failed to load users');
         }

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getApiUrl } from '../utils/api.js';
+import { getApiBaseUrl } from '../utils/api.js';
 
 const fallbackUsers = [
   { name: 'Ada Lovelace', email: 'ada@example.com', fitnessGoal: 'Marathon training' },
@@ -13,7 +13,7 @@ function Users() {
   useEffect(() => {
     async function loadUsers() {
       try {
-        const res = await fetch(getApiUrl('users'));
+        const res = await fetch(`${getApiBaseUrl()}/api/users/`);
         if (!res.ok) {
           throw new Error('Failed to load users');
         }

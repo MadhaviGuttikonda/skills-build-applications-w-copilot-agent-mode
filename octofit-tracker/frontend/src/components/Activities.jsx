@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getApiUrl } from '../utils/api.js';
+import { getApiBaseUrl } from '../utils/api.js';
 
 const fallbackActivities = [
   { type: 'Run', durationMinutes: 35, calories: 320 },
@@ -13,7 +13,7 @@ function Activities() {
   useEffect(() => {
     async function loadActivities() {
       try {
-        const res = await fetch(getApiUrl('activities'));
+        const res = await fetch(`${getApiBaseUrl()}/api/activities/`);
         if (!res.ok) {
           throw new Error('Failed to load activities');
         }

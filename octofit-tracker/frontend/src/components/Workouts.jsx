@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getApiUrl } from '../utils/api.js';
+import { getApiBaseUrl } from '../utils/api.js';
 
 const fallbackWorkouts = [
   { title: 'Core Blast', difficulty: 'Medium', durationMinutes: 25 },
@@ -13,7 +13,7 @@ function Workouts() {
   useEffect(() => {
     async function loadWorkouts() {
       try {
-        const res = await fetch(getApiUrl('workouts'));
+        const res = await fetch(`${getApiBaseUrl()}/api/workouts/`);
         if (!res.ok) {
           throw new Error('Failed to load workouts');
         }

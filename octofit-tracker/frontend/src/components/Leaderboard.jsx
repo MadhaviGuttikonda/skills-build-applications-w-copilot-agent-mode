@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getApiUrl } from '../utils/api.js';
+import { getApiBaseUrl } from '../utils/api.js';
 
 const fallbackEntries = [
   { rank: 1, name: 'Ada Lovelace', score: 1280 },
@@ -13,7 +13,7 @@ function Leaderboard() {
   useEffect(() => {
     async function loadLeaderboard() {
       try {
-        const res = await fetch(getApiUrl('leaderboard'));
+        const res = await fetch(`${getApiBaseUrl()}/api/leaderboard/`);
         if (!res.ok) {
           throw new Error('Failed to load leaderboard');
         }
